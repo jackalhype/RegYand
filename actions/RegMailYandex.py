@@ -24,6 +24,10 @@ class RegMailYandexAction(Action):
         if isinstance(res, ActionResult):
             return res
 
+        res = self.fillRegForm()
+        if isinstance(res, ActionResult):
+            return res
+
 
 
         # at the very end:
@@ -63,16 +67,38 @@ class RegMailYandexAction(Action):
 
     def fillRegForm(self):
         """
+        fill reg form
+        """
+        self.firstnameField()
+        self.lastnameField()
+        self.loginField()
+        self.passwordField()
+        self.passwordConfirmField()
+        self.confirmCheckBoxes()
+        self.hasNoPhoneLink()
+        self.chooseControlQuestion()
+        self.captcha()
+
+    def firstnameField(self):
+        """
         .registration__label[for="firstname"]
             click()
         #firstname
             send_keys()
+        """
+        None
 
+    def lastnameField(self):
+        """
         .registration__label[for="lastname"]
             click()
         #lastname
             send_keys()
+        """
+        None
 
+    def loginField(self):
+        """
         .registration__label[for="login"]
             click()
         #login
@@ -80,30 +106,92 @@ class RegMailYandexAction(Action):
                 wait 1 sec
                 need check
                 if .form__popup-error[data-t="login-error"] isVisible() than repeat
+        """
+        None
 
+    def passwordField(self):
+        """
         .registration__label[for="password"]
             click()
         #password
             send_keys()
+        """
+        None
 
+    def passwordConfirmField(self):
+        """
         .registration__label[for="password_confirm"]
             click()
         #password_confirm
             send_keys()
+        """
+        None
 
+    def confirmCheckBoxes(self):
+        """
         #money_eula_accepted    assert checked ??
             создать Яндекс.Кошелек
 
         #eula_accepted
             assert checked()
+        """
+        None
 
+    def hasNoPhoneLink(self):
+        """
         .link_has-no-phone
             У меня нет телефона
             click()
-
-
-
+            wait till select#hint_question_id isVisible()
         """
+        None
+
+    def chooseControlQuestion(self):
+        """
+        select#hint_question_id
+            click()
+
+        select#hint_question_id option
+            rnd click()
+
+        .registration__label[for="hint_answer"]
+            click()
+
+        input#hint_answer
+            send_keys()
+        """
+        None
+
+    def captcha(self):
+        """
+        .captcha__image
+            src
+                e.g.
+                    https://ext.captcha.yandex.net/image?key=00AzsXAwpPr3K6ZT26Ss9Cv3GaSxNv70
+                    https://ext.captcha.yandex.net/image?key=00AgIZy6jSFLbnZzkx2HifHtPeEuwGYp
+
+            click() == refresh
+
+        .registration__label[for="captcha"]
+            click()
+        input#captcha
+            send_keys()
+
+        div.form__submit button[type="submit"]
+            click(), long 3 secs wait ??
+            if
+                .form__popup-error[data-t="captcha-error"] isVisible()
+                    div.error-message text = Вы неверно ввели символы. Попробуйте еще раз
+            than repeat
+
+            if
+                https://mail.yandex.ru/#inbox
+                    redirect
+                https://mail.yandex.ru/?uid=9994237451#inbox
+                    win
+        """
+        None
+
 
 
 def main():
